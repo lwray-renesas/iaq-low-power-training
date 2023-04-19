@@ -3,7 +3,7 @@
  **************************************************************************/
 
 /* TODO: populate - The title of the lab*/
-const lab_title = "RL78/G23 IAQ Promotion Board Series - Actuators";
+const lab_title = "RL78/G23 IAQ Promotion Board Series - Low Power";
 
 /* TODO: populate -
 * array of string representing lab pages used to populate side navigation bar.
