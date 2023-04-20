@@ -525,8 +525,186 @@ void main(void)
 		</details>
 
 		<details>
-			<summary>3.6 Application Explained <i>[Informative]</i></summary>
-			<p></p>
+			<summary>3.7 Create RAMSD Region</summary>
+			<p>Because we will be utilising RAM shutdown we must handle a situation where our RAM becomes undefined.
+				There are a few ways to do this depending on application requirements, one of which is to choose the
+				variables you need to be retained during the application and place them in the RAMSD safe area (0xFF000 &rarr; 0xFFEFF).<br><br>
+				To do so <b>[Right click] the project</b> &rarr; <b>Properties</b> &rarr; <b>C/C++ Build</b> &rarr; <b>Settings</b> &rarr; <b>Linker</b>
+				&rarr; <b>Section</b>.<br>
+				<i>Uncheck</i> - <b>Layout sections automatically (-auto_Section_layout)</b><br>
+				Then open the Sections (-start) viewer and ensure it matches the following:
+			</p>
+			<img class="modal-thumbnails" src="img/img_lab/section_viewer.png" alt="">
+			<p>Then navigate to <b>[Right click] the project</b> &rarr; <b>Properties</b> &rarr; <b>C/C++ Build</b> &rarr; <b>Settings</b> &rarr; <b>Linker</b>
+				&rarr; <b>Output</b>.<br>
+				And using the <b>[Add...]</b> button include a new entry, <i>RAMSD_n=RAMSDR_n</i> in <b>ROM to RAM mapped section (-rom)</b>.<br>
+				As shown below:
+			</p>
+			<img class="modal-thumbnails" src="img/img_lab/output_viewer.png" alt="">
+		</details>
+		
+		<details>
+			<summary>3.8 Application Explained <i>[Informative]</i></summary>
+			<p>This application is built to showcase the RL78/G23's low power capabilities.<br>
+				The application is a simple state machine for which state transitions occur on a button press.
+				Each state is comprised of;</p>
+				<ol>
+					<li>Display update - show details of low power configuration for current state.</li>
+					<li>Wait for button click.</li>
+					<li>After button click - enter low power state.</li>
+					<li>Wait for button click  this is the only way to exit low power state.</li>
+				</ol>
+
+				<p>The following states exist;</p>
+				<ol>
+					<li><b>RUN MODE</b><br>
+						<i>This shows the running current of the RL78 at 2MHz MOCO driven CPU.<br>
+						All states (inlcuding this one) disables the backlight on the LCD to reduce CCIO peripheral current.</i>
+					</li>
+					<li><b>HALT MODE</b><br>
+						<i>This shows the HALT mode current of the RL78 at 2MHz MOCO driven CPU.</i></li>
+					<li><b>STOP MODE</b><br>
+						<i>This shows the STOP mode current of the RL78.</i></li>
+					<li><b>STOP MODE - No LOCO</b><br>
+						<i>This shows the STOP mode current of the RL78, while the LOCO is disabled.</i></li>
+					<li><b>STOP MODE - No LOCO - RAM Shutdown</b><br>
+						<i>This shows the STOP mode current of the RL78, while the LOCO is disabled &amp; and RAM shutdown is enabled.</i></li>
+					<li><b>STOP MODE - Floating IO</b><br>
+						<i>This shows the STOP mode current of the RL78, but impeeded by a floating IO input.</i></li>
+					<li><b>STOP MODE - CCIO</b><br>
+						<i>This shows the STOP mode current of the RL78, but impeeded by enabling the CCIO perihperal.</i></li>
+				</ol>
+
+			<p>The last two states in the above list are to show common impacts found when trying to achieve low power.
+				<b>STOP MODE - Floating IO</b> is one of the most common issues we see when debugging low power applications
+				and looking back over the project setup you may remember the PORT configuration in the Project Configuration section of the lab.<br><br>
+				It may not have been immediately obvious but the reason we engaged with every pin (barring ones used for other peripherals 
+				or externally terminated which we left unused) was to ensure there was no floating IO's causing through currents. Through
+				current phenomena occurs when a floating charge exists on an input buffer, shown below.
+			</p>
+			<img class="modal-thumbnails" src="img/img_lab/floatingio.png" alt="">
+
+			<p>The code for controlling each state is given below:</p>
+			<ol>
+				<li><b>RUN MODE</b><br>
+					<pre class="no-copy"><code class="C">/* Infinitely wait for a button click to progress*/
+App_wait_for_button_click();</code></pre>
+				</li>
+				<li><b>HALT MODE</b><br>
+					<pre class="no-copy"><code class="C">/* Simply execute the HALT instruction*/
+HALT(); /* Implicitly waits for unmasked interrupt to wake CPU*/</code></pre>
+				</li>
+				<li><b>STOP MODE</b><br>
+					<pre class="no-copy"><code class="C">/* Simply execute the STOP instruction*/
+STOP(); /* Implicitly waits for unmasked interrupt to wake CPU*/</code></pre>
+				</li>
+				<li><b>STOP MODE - No LOCO</b><br>
+					<pre class="no-copy"><code class="C">/* Turn off LOCO*/
+SELLOSC = 0U;
+WUTMMCK0 = 0U;
+				 
+STOP(); /* Implicitly waits for unmasked interrupt to wake CPU*/
+				 
+/* Turn on LOCO*/
+SELLOSC = 1U;
+WUTMMCK0 = 1U;</code></pre>
+				</li>
+				<li><b>STOP MODE - No LOCO - RAM Shutdown</b><br>
+					<pre class="no-copy"><code class="C">/* Turn off LOCO*/
+SELLOSC = 0U;
+WUTMMCK0 = 0U;
+				 
+/* RAM Shutdown*/
+RAMSDMD = 1U;
+R_BSP_SoftwareDelay(1UL, BSP_DELAY_MICROSECS);
+RAMSDS = 1U;
+				 
+STOP(); /* Implicitly waits for unmasked interrupt to wake CPU*/
+				 
+/* RAM Wakeup*/
+RAMSDS = 0U;
+R_BSP_SoftwareDelay(2UL, BSP_DELAY_MICROSECS);
+RAMSDMD = 0U;
+				 
+/* Turn on LOCO*/
+SELLOSC = 1U;
+WUTMMCK0 = 1U;</code></pre>
+				</li>
+				<li><b>STOP MODE - Floating IO</b><br>
+					<pre class="no-copy"><code class="C">/* Make port an input to allow floating currents*/
+PM2_bit.no7 = 1U;
+				 
+STOP(); /* Implicitly waits for unmasked interrupt to wake CPU*/
+				 
+/* Reset to output*/
+PM2_bit.no7 = 0U;</code></pre>
+				</li>
+				<li><b>STOP MODE - CCIO</b><br>
+					<pre class="no-copy"><code class="C">/* Introduce CCIO peripheral current draw - while backlight still disabled*/
+CCS6 = 0x00U; /* Hi-Z backlight*/
+CCDE |= 0x40U; /* Enable CCIO perihperal*/
+P6_bit.no2 = 0U; /* Make appropriate port setting to allow CCIO*/
+				 
+STOP(); /* Implicitly waits for unmasked interrupt to wake CPU*/</code></pre>
+				</li>
+			</ol>
+
+			<p>An important low power feature that exists is RAM shutdown - this feature disables RAM outside the area 0xFF000 &rarr; 0xFFEFF.
+				This is why we move certain variables pertaining to the applications state into the RAMSD safe area - which retains power.<br>
+				RAM outside of the mentioned range, upon exiting RAM shutdown, will be undefined.<br>
+				This is why the section init code exists, to intialise our RAM safe data.
+			</p>
+			<pre class="no-copy"><code class="C">/** @brief type for handling RAMSD section*/
+typedef struct
+{
+	char __far *rom_sectop;         /*Start address of copy source section      */
+	char __far *rom_secend;         /*End address + 1 of copy source section    */
+	char __near *ram_sectop;        /*Start address of copy destination section */
+} dsec_t;
+
+/* Place system data in RAMSD safe section*/
+#pragma section data RAMSD
+
+/* Display area data*/
+ST7735S_display_area_info_t disp_info = {ORIENT_0, 0U, 0U, 0U, 0U};
+/* variable to track system state*/
+system_state_type system_state = RUN_MODE;
+/* variable to track previous system state*/
+system_state_type prev_system_state = RUN_MODE;
+/* Array of titles for each state*/
+const char * titles[] = {
+		"RUN",
+		"HALT",
+		"STOP",
+		"STOP \n - NO LOCO",
+		"STOP \n - NO LOCO \n - RAMSDS=1",
+		"STOP \n - FLOATING IO",
+		"STOP \n - CCIO ENABLED"
+};
+
+/* Reset section*/
+#pragma section
+
+/** section info for RAMSD*/
+static const dsec_t dsec_info =
+{
+		__sectop("RAMSD_n"),
+		__secend("RAMSD_n"),
+		(char __near *)__sectop("RAMSDR_n")
+};
+
+void App_init(void)
+{
+	/* Section initialise*/
+	char __far *rom_p = dsec_info.rom_sectop;
+	char __near *ram_p = dsec_info.ram_sectop;
+	for ( ; rom_p != dsec_info.rom_secend; rom_p++, ram_p++)
+	{
+		*ram_p = *rom_p;
+	}
+	/* etc...*/
+}
+/* END OF FUNCTION*/</code></pre>
 		</details>
 
 		<!-- Prepare the pages modal images-->
