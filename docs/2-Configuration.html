@@ -35,30 +35,23 @@
 			<summary>2.1 Clocks &amp; Supply</summary>
 			<p>Navigate to the Clocks Tab &amp; perform the following:</p>
 			<ol>
-				<li>Set the <b>Operating mode</b> to <i>High-speed main mode 1.8(V)~5.5(V)</i><br>
+				<li>Set the <b>Operating mode</b> to <i>Low-power main mode 1.6(V)~5.5(V)</i><br>
 				This sets the operating mode/voltage of the device used for things like flash programming & in other back end operations of the smart configurator.</li>
-				<li>Set the <b>EVDD setting</b> to <i>1.8 V &le; EVDD 5.5 &le; V</i><br>
+				<li>Set the <b>EVDD setting</b> to <i>1.6 V &le; EVDD 5.5 &le; V</i><br>
 				This sets the operating voltage of EVDD, as above.</li>
-				<li>Enable the low-speed on-chip oscillator as the source clock for fSXP (sub-system clock)
-				and disable XT1.<br>
-				This uses the LOCO as the fSXP - a crystal is not fitted on this board - therefore it cannot be used.</li>
+				<li>Set the frequency of the <b>High-speed on-chip oscillator</b> to <i>2 (MHz)</i></li>
+				<li>Disable/Uncheck the <b>High-speed on-chip oscillator</b></li>
+				<li>Enable/Check the <b>Middle-speed on-chip oscillator</b></li>
+				<li>Set the frequency of the <b>Middle-speed on-chip oscillator</b> to <i>2 (MHz)</i></li>
+				<li>Enable the low-speed on-chip oscillator as the source clock for fSXP (sub-system clock)</li>
+				<li>Disable/Uncheck XT1<br>
+					This uses the LOCO as the fSXP - a crystal is not fitted on this board - therefore it cannot be used.</li>
 			</ol>
 			<img class="modal-thumbnails" src="img/img_lab/clocks.gif" alt="">
 		</details>
 
 		<details>
-			<summary>2.2 System</summary>
-			<p>Navigate to the System Tab &amp; set the <b>On-chip debug operation setting</b> to <i>Use emulator</i>
-				&amp; <b>Emulator setting</b> to <i>E2 Lite</i>.<br>
-				Finally disable the use of the trace function by setting <b>Trace function setting</b> to
-				<i>Unused</i>.<br>
-				Enabling trace function consumes RAM unncessarily as we will not be using the trace function in this
-				project.</p>
-			<img class="modal-thumbnails" src="img/img_lab/system.gif" alt="">
-		</details>
-
-		<details>
-			<summary>2.3 SPI</summary>
+			<summary>2.2 SPI</summary>
 			<p>Navigate to the Components Tab.<br>
 				This section is where the "magic" happens. The peripheral functions &amp; middlewares can be included,
 				removed and configured from this single location.<br>
@@ -83,53 +76,113 @@
 			<ol>
 				<li><b>Transfer direction setting:</b> <i>MSB</i></li>
 				<li><b>Specification of data timing:</b> <i>Type 4</i></li>
-				<li><b>Baudrate:</b> <i>8000000</i></li>
+				<li><b>Baudrate:</b> <i>1000000</i></li>
 			</ol>
 			<img class="modal-thumbnails" src="img/img_lab/configurespi.gif" alt="">
 		</details>
 
 		<details>
-			<summary>2.4 Ports - TODO (set all the ports...)</summary>
+			<summary>2.3 Ports</summary>
 			<p>The <b>Ports</b> component controls the GPIO ports for things like LED control and display I/O, please do
 				the following:</p>
 			<ol>
 				<li>Add the <i>Ports</i> component</li>
 				<li><b>Resource:</b> <i>PORT</i></li>
 			</ol>
-			<img class="modal-thumbnails" src="img/img_lab/addports.gif" alt="">
 			<p>Make the following changes to the configuration:</p>
 			<ol>
-				<li><b>Port selection tab:</b> Check <b>ALL</b> PORT boxes.</li>
-				<li><b>PORT0 tab:</b></li>
-				<li><b>PORT1 tab:</b></li>
-				<li><b>PORT2 tab:</b></li>
-				<li><b>PORT3 tab:</b></li>
-				<li><b>PORT4 tab:</b></li>
-				<li><b>PORT5 tab:</b></li>
-				<li><b>PORT6 tab:</b></li>
-				<li><b>PORT7 tab:</b></li>
-				<li><b>PORT12 tab:</b></li>
-				<li><b>PORT13 tab:</b></li>
-				<li><b>PORT14 tab:</b></li>
-
-				<li><b>PORT1 tab:</b> Set the following to <b>Output current</b> &amp; <b>Hi-Z initial output</b>;
-					<i>P16</i>, <i>P17</i><br>
-					These are the LED control pins.</li>
-				<li><b>PORT1 tab:</b> Set the following to <b>Output</b> &amp; <b>initial output 1</b>; <i>P13</i><br>
-					This is the display CS pin.</li>
-				<li><b>PORT6 tab:</b> Set the following to <b>Output current</b> &amp; <b>Hi-Z initial output</b>;
-					<i>P62</i><br>
-					This is the display backlight.</li>
-				<li><b>PORT7 tab:</b> Set the following to <b>Output</b> &amp; <b>initial output 1</b>; <i>P73</i><br>
-					This is the display RESET pin.</li>
-				<li><b>PORT14 tab:</b> Set the following to <b>Output</b> &amp; <b>initial output 1</b>; <i>P146</i><br>
-					This is the display D/C pin.</li>
+				<li><b>Port selection tab:</b> Check <b>ALL</b> PORT boxes.<br>
+					<img class="modal-thumbnails" src="img/img_lab/ports_checked.png" alt="">
+				</li>
+				<li><b>PORT0 tab:</b>
+					<ul>
+						<li>P00 - Unused</li>
+						<li>P01 - Out</li>
+					</ul>
+				</li>
+				<li><b>PORT1 tab:</b>
+					<ul>
+						<li>P10 - Unused</li>
+						<li>P11 - Unused</li>
+						<li>P12 - Unused</li>
+						<li>P13 - Out - Output 1</li>
+						<li>P14 - Out</li>
+						<li>P15 - Out</li>
+						<li>P16 - Out - Output 1</li>
+						<li>P17 - Out - Output 1</li>
+					</ul>
+				</li>
+				<li><b>PORT2 tab:</b>
+					<ul>
+						<li>P20 - Out</li>
+						<li>P21 - Out</li>
+						<li>P22 - Out</li>
+						<li>P23 - Out</li>
+						<li>P24 - Out</li>
+						<li>P25 - Out</li>
+						<li>P26 - Out</li>
+						<li>P27 - Out</li>
+					</ul>
+				</li>
+				<li><b>PORT3 tab:</b>
+					<ul>
+						<li>P30 - Out</li>
+						<li>P31 - Unused</li>
+					</ul>
+				</li>
+				<li><b>PORT4 tab:</b>
+					<ul>
+						<li>P40 - Unused - Pull-up</li>
+						<li>P41 - Out - Output 1</li>
+					</ul>
+				</li>
+				<li><b>PORT5 tab:</b>
+					<ul>
+						<li>P50 - Unused - Input buffer OFF</li>
+						<li>P51 - Unused</li>
+					</ul>
+				</li>
+				<li><b>PORT6 tab:</b>
+					<ul>
+						<li>P60 - Unused</li>
+						<li>P61 - Unused</li>
+						<li>P62 - Output current - Hi-Z</li>
+						<li>P63 - Out - Output 1</li>
+					</ul>
+				</li>
+				<li><b>PORT7 tab:</b>
+					<ul>
+						<li>P70 - Out - Output 1</li>
+						<li>P71 - Unused - Input buffer OFF</li>
+						<li>P72 - Unused - Input buffer OFF</li>
+						<li>P73 - Out - Output 1</li>
+					</ul>
+				</li>
+				<li><b>PORT12 tab:</b>
+					<ul>
+						<li>P120 - Out - Output 1</li>
+						<li>P121 - Out</li>
+						<li>P122 - Out</li>
+						<li>P123 - Unused</li>
+						<li>P124 - Unused</li>
+					</ul>
+				</li>
+				<li><b>PORT13 tab:</b>
+					<ul>
+						<li>P137 - Unused</li>
+					</ul>
+				</li>
+				<li><b>PORT14 tab:</b>
+					<ul>
+						<li>P146 - Out - Output 1</li>
+						<li>P147 - Out</li>
+					</ul>
+				</li>
 			</ol>
-			<img class="modal-thumbnails" src="img/img_lab/configureports.gif" alt="">
 		</details>
 
 		<details>
-			<summary>2.5 DTC SPI - TODO images</summary>
+			<summary>2.4 DTC SPI</summary>
 			<p>The SPI driver has integratedd support for the DTC to enable CPU less writes to SPI.
 				So we will enable a channel of DTC to support this configuration.</p>
 			<ol>
@@ -166,11 +219,11 @@
 					</ol>
 				</li>
 			</ol>
-			<img class="modal-thumbnails" src="img/img_lab/configuredtcspi.gif" alt="">
+			<img class="modal-thumbnails" src="img/img_lab/configuredtc.gif" alt="">
 		</details>
 
 		<details>
-			<summary>2.6 TAU04</summary>
+			<summary>2.5 TAU04</summary>
 			<p>The display driver requires a delay functions with ms resolution for performing certain operations such as
 				resets/sleeps &amp; wakeups.<br>
 				We will use TAU04 interval timer to provide this, so please do the following:
@@ -184,7 +237,7 @@
 			<p>Make the following changes to the configuration:</p>
 			<ol>
 				<li><b>Operation clock:</b> <i>CK01</i></li>
-				<li><b>Clock source:</b> <i>fCLK/2^14</i></li>
+				<li><b>Clock source:</b> <i>fCLK/2^10</i></li>
 				<li><b>Interval value (16 bits):</b> <i>1 count</i></li>
 				<li><b>Generates INTTM04 when counting is started:</b> <i>Unchecked</i></li>
 				<li><b>End of timer channel 4 count, generate an interrupt (INTTM04):</b> <i>Unchecked</i></li>
@@ -193,7 +246,7 @@
 		</details>
 
 		<details>
-			<summary>2.7 INTC - INTP4</summary>
+			<summary>2.6 INTC - INTP4</summary>
 			<p>To make use of the integrated push button through the shaft of the rotary encoder, we must enable the external interrupt channel.<br>
 				Please do the following:
 			</p>
@@ -212,7 +265,7 @@
 		</details>
 
 		<details>
-			<summary>2.8 Generate Code</summary>
+			<summary>2.7 Generate Code</summary>
 			<p>Now click Generate Code.</p>
 			<img class="modal-thumbnails" src="img/img_lab/generatecode.gif" alt="">
 			<p>What happens here is the src/smc_gen folder is populated with code reflecting the
