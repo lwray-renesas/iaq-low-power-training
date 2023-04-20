@@ -542,9 +542,35 @@ void main(void)
 			</p>
 			<img class="modal-thumbnails" src="img/img_lab/output_viewer.png" alt="">
 		</details>
+
+		<details>
+			<summary>3.8 Output HEX File</summary>
+			<p>Because we will be utilising RFP (Renesas Flash Programmer) to flash the device and operate the application
+				(to avoid increasing current consumption due to debugger connection) we will enable the generation of a hex file.
+			To do so navigate to <b>[Right click] the project</b> &rarr; <b>Properties</b> &rarr; <b>C/C++ Build</b> &rarr; <b>Settings</b> &rarr; <b>Converter</b>
+				&rarr; <b>Output</b>.<br>
+				And enable <b>Output hex file</b>.
+			</p>
+			<img class="modal-thumbnails" src="img/img_lab/converter.png" alt="">
+		</details>
+
+		<details>
+			<summary>3.9 Edit mcu_clocks.c</summary>
+			<p>The lowest power confiuration for the XT1 oscillator pins is to place the <i>pins</i> in oscialltion connection mode, but disable the oscillator.
+				Unfortunately the register which controls the oscillator can only be written to once on power up and is done so by the auto generated code.
+				Therefore we need to edit the driver.<br>
+			To do so navigate to <b>src</b> &rarr; <b>smc_gen</b> &rarr; <b>r_bsp</b> &rarr; <b>mcu</b> &rarr; <b>rl78_g23</b>
+				&rarr; <b>mcu_clocks.c</b>.<br>
+				At <b>line 651</b> change:
+			</p>
+			<pre><code class="C">cmc_tmp = 0x00U</code></pre>
+			<p>to:</p>
+			<pre><code class="C">cmc_tmp = 0x10U</code></pre>
+			<img class="modal-thumbnails" src="img/img_lab/mcu_clocks.png" alt="">
+		</details>
 		
 		<details>
-			<summary>3.8 Application Explained <i>[Informative]</i></summary>
+			<summary>3.10 Application Explained <i>[Informative]</i></summary>
 			<p>This application is built to showcase the RL78/G23's low power capabilities.<br>
 				The application is a simple state machine for which state transitions occur on a button press.
 				Each state is comprised of;</p>

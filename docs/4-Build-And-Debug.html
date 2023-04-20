@@ -28,29 +28,90 @@
 		<!-- Start adding "details" sections for lab steps-->
 
 		<details open>
-			<summary>4.1 Build the project - TODO images</summary>
+			<summary>4.1 Build the project</summary>
 			<p>To build the project please <b>[Right-Click]</b> the project and click <b>Build Project</b>.</p>
 			<img class="modal-thumbnails" src="img/img_lab/projectbuild.gif" alt="">
 		</details>
 
 		<details>
-			<summary>4.2 Hardware - TODO show current measurement connections</summary>
-			<p>Before debugging the project, please ensure headers are fitted to the header <b>H1</b> in positions 1-2
-				(VBATT-VDD) &amp; 4-5 (VDD_RL78 - VDD).<br>
-				Finally connect the E2-Lite - the user <b>does</b> need to connect batteries for this lab as we will not be keeping the debugger.
+			<summary>4.2 Hardware</summary>
+			<p>Before flashing the board with the image, please ensure a jumper is fitted to the header <b>H1</b> in positions 1-2
+				(VBATT-VDD) &amp; that your <b>ammeter</b> is connected such that power in (+) is pin 5 and power out (-) is pin 4 (and pin 3 = GND).<br>
+				Finally connect the E2-Lite - the user <b>does</b> need to connect batteries for this lab as we will not be keeping the debugger beyond flashing.
 			</p>
-			<img class="modal-thumbnails" src="img/img_lab/headers.png" alt="">
-			<img class="modal-thumbnails" src="img/img_lab/e2lite.png" alt="">
+			<img class="modal-thumbnails" src="img/img_lab/headers.JPG" alt="">
+			<img class="modal-thumbnails" src="img/img_lab/e2lite.JPG" alt="">
 		</details>
 
 		<details>
-			<summary>4.3 Flashing the image - TODO RFP</summary>
-			<p> </p>
+			<summary>4.3 Flashing the image</summary>
+			<p>Now that we have our hardware setup, launch RFP and go <b>[File]</b> &rarr; <b>[New Project...]</b>.</p>
+			<img class="modal-thumbnails" src="img/img_lab/openrfp.gif" alt="">
+			<p>And make the following changes:</p>
+			<ul>
+				<li><b>Microcontroller:</b> <i>RL78/G2x</i></li>
+				<li><b>Project Name:</b> <i>Anything Sensible</i></li>
+				<li><b>Project Folder:</b> <i>Anywhere</i></li>
+				<li><b>Tool:</b> <i>E2 emulator Lite</i></li>
+			</ul>
+			<p>Click <b>[Connect]</b></p>
+			<img class="modal-thumbnails" src="img/img_lab/configurerfp.gif" alt="">
+			<p>Now click browse and navigate to the HardwareDebug folder within your project. Here you will find a file which is <i>&lt;project_name&gt;.mot</i>.
+				Select this file &amp; click <b>[Start]</b>.</p>
+				<img class="modal-thumbnails" src="img/img_lab/flashrfp.gif" alt="">
+				<p>Flashing the device is complete, now <b>disconnect the E2 Lite</b>.</p>
 		</details>
-
+		
 		<details>
-			<summary>4.4 Operating project - TODO</summary>
-			<p> </p>
+			<summary>4.4 Operating project</summary>
+			<p>Now the application should be running and you will be presented with a display which says "RUN".
+				By clicking the button on the rotary encoder the backlight will be disabled and the CPU run
+				current will be presented in your ammeter display.<br>
+				Example of display before enterring the labelled state:
+			</p>
+			<img class="modal-thumbnails" src="img/img_lab/run_display.JPG" alt="">
+			<p>Display while in the state:</p>
+			<img class="modal-thumbnails" src="img/img_lab/no_display.JPG" alt="">
+
+			<p>For each state, the display will be on presenting details of the state awaiting a button press.
+				On the button press the state will be enterred. After whcih it will remain in the previously labelled
+				state until the button is pressed again.<br>
+				The following states exist and for each the current trace is shown with brief explanation.<br>
+			<b>Important Note:</b> To cycle the states simply click the button - the reason that while the display is on,
+			excess current is drawn is the CCIO peripheral when draws extra current when performing it's current 
+			control operation.</p>
+			
+				<ol>
+					<li><b>RUN MODE</b><br>
+						<i>This shows the running current of the RL78 at 2MHz MOCO driven CPU.</i><br>
+						<img class="modal-thumbnails" src="img/img_lab/run_current.png" alt="">
+					</li>
+					<li><b>HALT MODE</b><br>
+						<i>This shows the HALT mode current of the RL78 at 2MHz MOCO driven CPU.</i><br>
+						<img class="modal-thumbnails" src="img/img_lab/halt_current.png" alt="">
+					</li>
+					<li><b>STOP MODE</b><br>
+						<i>This shows the STOP mode current of the RL78.</i><br>
+						<img class="modal-thumbnails" src="img/img_lab/stop0_current.png" alt="">
+					</li>
+					<li><b>STOP MODE - No LOCO</b><br>
+						<i>This shows the STOP mode current of the RL78, while the LOCO is disabled.</i><br>
+						<img class="modal-thumbnails" src="img/img_lab/stop1_current.png" alt="">
+					</li>
+					<li><b>STOP MODE - No LOCO - RAM Shutdown</b><br>
+						<i>This shows the STOP mode current of the RL78, while the LOCO is disabled &amp; and RAM shutdown is enabled.</i><br>
+						<img class="modal-thumbnails" src="img/img_lab/stop2_current.png" alt="">
+					</li>
+					<li><b>STOP MODE - Floating IO</b><br>
+						<i>This shows the STOP mode current of the RL78, but impeeded by a floating IO input.</i><br>
+						<img class="modal-thumbnails" src="img/img_lab/stop_fio.png" alt="">
+					</li>
+					<li><b>STOP MODE - CCIO</b><br>
+						<i>This shows the STOP mode current of the RL78, but impeeded by enabling the CCIO perihperal.</i><br>
+						<img class="modal-thumbnails" src="img/img_lab/stop_ccio.png" alt="">
+					</li>
+				</ol>
+
 		</details>
 
 		<!-- Prepare the pages modal images-->
