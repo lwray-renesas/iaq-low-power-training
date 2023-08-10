@@ -14,13 +14,13 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2021, 2022 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2021, 2023 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 * File Name        : Config_TAU0_4.h
-* Component Version: 1.2.0
-* Device(s)        : R7F100GFNxFP
+* Component Version: 1.4.0
+* Device(s)        : R7F100GGNxFB
 * Description      : This file implements device driver for Config_TAU0_4.
 ***********************************************************************************************************************/
 
@@ -53,6 +53,9 @@ void R_Config_TAU0_4_Start(void);
 void R_Config_TAU0_4_Stop(void);
 void R_Config_TAU0_4_Create_UserInit(void);
 /* Start user code for function. Do not edit comment generated here */
+/** @brief function to use a timer to delay ms number of milliseconds.
+* @param ms - number of milliseconds to delay.
+*/
 void Hw_delay_ms(uint16_t ms);
 /* End user code. Do not edit comment generated here */
 #endif

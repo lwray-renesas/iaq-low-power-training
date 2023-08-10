@@ -14,13 +14,13 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2021, 2022 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2021, 2023 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 * File Name        : Config_TAU0_4_user.c
-* Component Version: 1.2.0
-* Device(s)        : R7F100GFNxFP
+* Component Version: 1.4.0
+* Device(s)        : R7F100GGNxFB
 * Description      : This file implements device driver for Config_TAU0_4.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -57,7 +57,6 @@ void R_Config_TAU0_4_Create_UserInit(void)
 }
 
 /* Start user code for adding. Do not edit comment generated here */
-
 void Hw_delay_ms(uint16_t ms)
 {
 	if(ms > 0U)
@@ -91,5 +90,4 @@ void Hw_delay_ms(uint16_t ms)
 	}
 }
 /* END OF FUNCTION*/
-
 /* End user code. Do not edit comment generated here */

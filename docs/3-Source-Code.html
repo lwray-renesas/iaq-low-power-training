@@ -98,7 +98,7 @@ void R_Config_CSI00_Send_app(const uint8_t * const tx_buf, uint16_t tx_num);</co
 /***********************************************************************************************************************
 * File Name        : Config_CSI00_user.c
 * Component Version: 1.2.0
-* Device(s)        : R7F100GFNxFP
+* Device(s)        : R7F100GGNxFP
 * Description      : This file implements device driver for Config_CSI00.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -525,7 +525,7 @@ void main(void)
 		</details>
 
 		<details>
-			<summary>3.7 Create RAMSD Region</summary>
+			<summary>3.6 Create RAMSD Region</summary>
 			<p>Because we will be utilising RAM shutdown we must handle a situation where our RAM becomes undefined.
 				There are a few ways to do this depending on application requirements, one of which is to choose the
 				variables you need to be retained during the application and place them in the RAMSD safe area (0xFF000 &rarr; 0xFFEFF).<br><br>
@@ -544,7 +544,7 @@ void main(void)
 		</details>
 
 		<details>
-			<summary>3.8 Output HEX File</summary>
+			<summary>3.7 Output HEX File</summary>
 			<p>Because we will be utilising RFP (Renesas Flash Programmer) to flash the device and operate the application
 				(to avoid increasing current consumption due to debugger connection) we will enable the generation of a hex file.
 			To do so navigate to <b>[Right click] the project</b> &rarr; <b>Properties</b> &rarr; <b>C/C++ Build</b> &rarr; <b>Settings</b> &rarr; <b>Converter</b>
@@ -555,13 +555,13 @@ void main(void)
 		</details>
 
 		<details>
-			<summary>3.9 Edit mcu_clocks.c</summary>
+			<summary>3.8 Edit mcu_clocks.c</summary>
 			<p>The lowest power confiuration for the XT1 oscillator pins is to place the <i>pins</i> in oscialltion connection mode, but disable the oscillator.
 				Unfortunately the register which controls the oscillator can only be written to once on power up and is done so by the auto generated code.
 				Therefore we need to edit the driver.<br>
 			To do so navigate to <b>src</b> &rarr; <b>smc_gen</b> &rarr; <b>r_bsp</b> &rarr; <b>mcu</b> &rarr; <b>rl78_g23</b>
 				&rarr; <b>mcu_clocks.c</b>.<br>
-				At <b>line 651</b> change:
+				At <b>line 657</b> change:
 			</p>
 			<pre><code class="C">cmc_tmp = 0x00U</code></pre>
 			<p>to:</p>
@@ -570,7 +570,7 @@ void main(void)
 		</details>
 		
 		<details>
-			<summary>3.10 Application Explained <i>[Informative]</i></summary>
+			<summary>3.9 Application Explained <i>[Informative]</i></summary>
 			<p>This application is built to showcase the RL78/G23's low power capabilities.<br>
 				The application is a simple state machine for which state transitions occur on a button press.
 				Each state is comprised of;</p>

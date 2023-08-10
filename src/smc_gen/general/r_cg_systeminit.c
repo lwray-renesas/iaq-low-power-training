@@ -14,13 +14,13 @@
 * following link:
 * http://www.renesas.com/disclaimer
 *
-* Copyright (C) 2021, 2022 Renesas Electronics Corporation. All rights reserved.
+* Copyright (C) 2021, 2023 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
 * File Name        : r_cg_systeminit.c
-* Version          : 1.0.11
-* Device(s)        : R7F100GFNxFP
+* Version          : 1.0.13
+* Device(s)        : R7F100GGNxFB
 * Description      : This file implements system initializing function.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
@@ -28,9 +28,9 @@ Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
 #include "r_cg_userdefine.h"
-#include "Config_PORT.h"
 #include "Config_DTC.h"
 #include "Config_INTC.h"
+#include "Config_PORT.h"
 #include "r_cg_sau_common.h"
 #include "r_cg_tau_common.h"
 /* Start user code for include. Do not edit comment generated here */

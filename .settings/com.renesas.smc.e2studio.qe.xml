@@ -20,25 +20,28 @@
         <Setting id="P24" value="P24"/>
         <Setting id="P27" value="P27"/>
         <Setting id="P26" value="P26"/>
+        <Setting id="P130" value="P130"/>
         <Setting id="P70" value="P70"/>
         <Setting id="P30" value="P30"/>
         <Setting id="P73" value="P73"/>
         <Setting id="P10" value="SCK00"/>
         <Setting id="P31" value="INTP4"/>
+        <Setting id="P75" value="P75"/>
         <Setting id="P12" value="SO00"/>
         <Setting id="P14" value="P14"/>
         <Setting id="P13" value="P13"/>
         <Setting id="P16" value="P16"/>
         <Setting id="P15" value="P15"/>
         <Setting id="P17" value="P17"/>
+        <Setting id="P140" value="P140"/>
         <Setting id="P120" value="P120"/>
     </Segment>
     <Segment id="Device">
         <Setting id="Series" value="RL78G2x"/>
         <Setting id="Group" value="RL78G23"/>
         <Setting id="Board" value="Custom User Board"/>
-        <Setting id="PartNo" value="R7F100GFNxFP"/>
-        <Setting id="PinCount" value="44"/>
+        <Setting id="PartNo" value="R7F100GGNxFB"/>
+        <Setting id="PinCount" value="48"/>
     </Segment>
     <Segment id="Clock">
         <Setting id="FSXL" value="32.768"/>

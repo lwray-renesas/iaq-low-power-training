@@ -43,6 +43,7 @@
 				<li>Disable/Uncheck the <b>High-speed on-chip oscillator</b></li>
 				<li>Enable/Check the <b>Middle-speed on-chip oscillator</b></li>
 				<li>Set the frequency of the <b>Middle-speed on-chip oscillator</b> to <i>2 (MHz)</i></li>
+				<li>Use the selector to select the <b>Middle-speed on-chip oscillator</b> as the system clock fCLK</i></li>
 				<li>Enable the low-speed on-chip oscillator as the source clock for fSXP (sub-system clock)</li>
 				<li>Disable/Uncheck XT1<br>
 					This uses the LOCO as the fSXP - a crystal is not fitted on this board - therefore it cannot be used.</li>
@@ -51,7 +52,13 @@
 		</details>
 
 		<details>
-			<summary>2.2 SPI</summary>
+			<summary>2.2 System</summary>
+			<p>Navigate to the System Tab &amp; select <b>Unused</b> for <b>On-chip debug operation setting</b>.</p>
+			<img class="modal-thumbnails" src="img/img_lab/disabledebug.png" alt="">
+		</details>
+
+		<details>
+			<summary>2.3 SPI</summary>
 			<p>Navigate to the Components Tab.<br>
 				This section is where the "magic" happens. The peripheral functions &amp; middlewares can be included,
 				removed and configured from this single location.<br>
@@ -82,7 +89,7 @@
 		</details>
 
 		<details>
-			<summary>2.3 Ports</summary>
+			<summary>2.4 Ports</summary>
 			<p>The <b>Ports</b> component controls the GPIO ports for things like LED control and display I/O, please do
 				the following:</p>
 			<ol>
@@ -156,6 +163,8 @@
 						<li>P71 - Unused - Input buffer OFF</li>
 						<li>P72 - Unused - Input buffer OFF</li>
 						<li>P73 - Out - Output 1</li>
+						<li>P74 - Unused - Input buffer OFF</li>
+						<li>P75 - Out - Output 1</li>
 					</ul>
 				</li>
 				<li><b>PORT12 tab:</b>
@@ -169,11 +178,13 @@
 				</li>
 				<li><b>PORT13 tab:</b>
 					<ul>
-						<li>P137 - Unused</li>
+						<li>P130 - Out - Output 1</li>
+						<li>P137 - Unused - Input buffer OFF</li>
 					</ul>
 				</li>
 				<li><b>PORT14 tab:</b>
 					<ul>
+						<li>P140 - Out - Output 1</li>
 						<li>P146 - Out - Output 1</li>
 						<li>P147 - Out</li>
 					</ul>
@@ -182,7 +193,7 @@
 		</details>
 
 		<details>
-			<summary>2.4 DTC SPI</summary>
+			<summary>2.5 DTC SPI</summary>
 			<p>The SPI driver has integratedd support for the DTC to enable CPU less writes to SPI.
 				So we will enable a channel of DTC to support this configuration.</p>
 			<ol>
@@ -205,7 +216,6 @@
 							original interrupt signals ISR fires and DTC trnsfers become disabled until re-enabling.
 						</li>
 						<li><b>Transfer data size setting:</b> <i>8 bits</i>.<br>
-							The width of the destination register CKS1.</li>
 						<li><b>Transfer source address:</b> <i>0x0000</i> &amp; <i>Address incremented</i>.<br>
 							The source of the transfer will be
 							set dynamically and by incrementing the source address on transfer completion we can
@@ -223,7 +233,7 @@
 		</details>
 
 		<details>
-			<summary>2.5 TAU04</summary>
+			<summary>2.6 TAU04</summary>
 			<p>The display driver requires a delay functions with ms resolution for performing certain operations such as
 				resets/sleeps &amp; wakeups.<br>
 				We will use TAU04 interval timer to provide this, so please do the following:
@@ -246,7 +256,7 @@
 		</details>
 
 		<details>
-			<summary>2.6 INTC - INTP4</summary>
+			<summary>2.7 INTC - INTP4</summary>
 			<p>To make use of the integrated push button through the shaft of the rotary encoder, we must enable the external interrupt channel.<br>
 				Please do the following:
 			</p>
@@ -265,7 +275,14 @@
 		</details>
 
 		<details>
-			<summary>2.7 Generate Code</summary>
+			<summary>2.8 R_BSP_SoftwareDelay</summary>
+			<p>Verify r_bsp is generating the software delay function:
+			</p>
+			<img class="modal-thumbnails" src="img/img_lab/rbsp_sw_delay.png" alt="">
+		</details>
+
+		<details>
+			<summary>2.9 Generate Code</summary>
 			<p>Now click Generate Code.</p>
 			<img class="modal-thumbnails" src="img/img_lab/generatecode.gif" alt="">
 			<p>What happens here is the src/smc_gen folder is populated with code reflecting the
